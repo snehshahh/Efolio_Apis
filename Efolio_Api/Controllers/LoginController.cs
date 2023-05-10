@@ -48,7 +48,12 @@ namespace Efolio_Api.Controllers
 
 		}
 
+        //[HttpGet("GetProjects")]
+        //public async Task<IActionResult> GetProjects([FromQuery] int Id)
+        //{
+        //    var result = await dbHelper.GetProjects(Id);
+        //    return Ok(result);
 
-
+        //}
 	}
 }

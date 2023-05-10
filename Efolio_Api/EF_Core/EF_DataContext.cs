@@ -8,6 +8,8 @@ namespace Efolio_Api.EF_Core
 
         public DbSet<Login> Logins { get; set; }
         public DbSet<Link> Links { get; set; }
-
+        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Projects> Projectss{ get; set; }
+        public DbSet<Experience> Experiences { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Efolio_Api.EF_Core;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using System.Security;
 
 namespace Efolio_Api.Models
@@ -24,7 +25,8 @@ namespace Efolio_Api.Models
 			}
 
 			return null;
-		}public string RegisterAndAuthenticateUser(Login login)
+		}
+		public string RegisterAndAuthenticateUser(Login login)
 		{
 			_context.Logins.Add(login);
 			_context.SaveChanges();
@@ -35,6 +37,7 @@ namespace Efolio_Api.Models
 				GLink = url
 			};
 			_context.Links.Add(links);
+			_context.SaveChanges();
 			return url;
 
 		}
