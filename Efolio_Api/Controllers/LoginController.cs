@@ -20,7 +20,7 @@ namespace Efolio_Api.Controllers
         }
 
         // GET: api/<LoginController>
-        [HttpGet("IsUserCredentialsValid")]
+        [HttpGet("Login")]
         public IActionResult IsUserCredentialsValid([FromQuery] string email, [FromQuery] string password)
         {
             string isValidCredentials = dbHelper.IsUserCredentialsValid(email, password);
@@ -34,7 +34,7 @@ namespace Efolio_Api.Controllers
             return Unauthorized("Invalid email or password");
         }
 
-        [HttpGet("RegisterAndAuthenticateUser")]
+        [HttpGet("SignUp")]
 		public IActionResult RegisterAndAuthenticateUser([FromQuery] string email, [FromQuery] string password)
 		{
 			// Create a new user entity with the provided email and password
@@ -48,12 +48,6 @@ namespace Efolio_Api.Controllers
 
 		}
 
-        //[HttpGet("GetProjects")]
-        //public async Task<IActionResult> GetProjects([FromQuery] int Id)
-        //{
-        //    var result = await dbHelper.GetProjects(Id);
-        //    return Ok(result);
-
-        //}
+        
 	}
 }

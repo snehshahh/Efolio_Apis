@@ -39,8 +39,23 @@ namespace Efolio_Api.Models
 			_context.Links.Add(links);
 			_context.SaveChanges();
 			return url;
-
 		}
+		public List<Projects> GetProjects(int id)
+		{
+			var result = _context.Projectss.Where(p => p.NewId == id).ToList();
+			return result;
+		}
+		public List<Experience> GetExperience(int id)
+		{
+			var result = _context.Experiences.Where(p => p.NewId == id).ToList();
+			return result;
+		}
+		public List<Education> GetEducations(int id)
+		{
+			var result = _context.Educations.Where(p => p.NewId == id).ToList();
+			return result;
+		}
+		
 
 	}
 }

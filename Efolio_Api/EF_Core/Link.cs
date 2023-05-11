@@ -3,7 +3,9 @@
     public class Link
     {
         public int Id { get; set; }
-        public string Email { get; set; }
+		public int NewId { get; set; }
+
+		public string Email { get; set; }
         public string GLink { get; set; }
     }
 }

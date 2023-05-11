@@ -2,6 +2,7 @@
 using Efolio_Api.EF_Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Efolio_Api.Migrations
 {
     [DbContext(typeof(EF_DataContext))]
-    partial class EF_DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230511041833_AddNewTables")]
+    partial class AddNewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +44,6 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("YearsOfExperience")
                         .HasColumnType("integer");
 
@@ -68,9 +68,6 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Links");
@@ -87,9 +84,6 @@ namespace Efolio_Api.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("NewId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -125,9 +119,6 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Twitter")
                         .IsRequired()
                         .HasColumnType("text");
@@ -144,9 +135,6 @@ namespace Efolio_Api.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("NewId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("ProjectDesc")
                         .IsRequired()
