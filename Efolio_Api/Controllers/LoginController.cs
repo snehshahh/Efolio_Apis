@@ -31,7 +31,7 @@ namespace Efolio_Api.Controllers
             }
 
             // User credentials are invalid, return an appropriate response
-            return Unauthorized("Invalid email or password");
+            return StatusCode(404, new { message = "Failed", StatusCode = 404 });
         }
 
         [HttpGet("SignUp")]
