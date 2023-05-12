@@ -40,5 +40,31 @@ namespace Efolio_Api.Controllers
 				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
 			}
 		}
-	}
+		[HttpPut("UpdateProjects")]
+        public async Task<IActionResult> UpdateProjects([FromBody] Projects projects)
+        {
+            var result = dbHelper.UpdateProjects(projects);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
+		[HttpDelete("DeleteProjects")]
+        public async Task<IActionResult> DeleteProjects([FromQuery] int id)
+        {
+            var result = dbHelper.DeleteProjects(id);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
+    }
 }

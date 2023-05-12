@@ -16,7 +16,7 @@ namespace Efolio_Api.Controllers
 		[HttpGet("GetProfile")]
 		public async Task<IActionResult> GetProfile([FromQuery] int id)
 		{
-			var result = dbHelper.GetProfile(id);
+			var result = dbHelper.GetProfile(id); 
 			if (result != null)
 			{
 				return Ok(result);
@@ -53,5 +53,19 @@ namespace Efolio_Api.Controllers
 				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
 			}
 		}
-	}
+       
+        [HttpDelete("DeleteProfile")]
+        public async Task<IActionResult> DeleteProfile([FromQuery] int id)
+        {
+            var result = dbHelper.DeleteProfile(id);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
+    }
 }

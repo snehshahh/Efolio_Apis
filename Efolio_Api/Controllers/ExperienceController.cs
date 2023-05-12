@@ -40,5 +40,31 @@ namespace Efolio_Api.Controllers
 				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
 			}
 		}
+		[HttpPut("UpdateExperience")]
+        public async Task<IActionResult> UpdateExperience([FromBody] Experience experience)
+        {
+            var result = dbHelper.UpdateExperience(experience);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
+		[HttpDelete("DeleteExperience")]
+        public async Task<IActionResult> DeleteExperience([FromQuery] int id)
+        {
+            var result = dbHelper.DeleteExperience(id);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
 	}
 }

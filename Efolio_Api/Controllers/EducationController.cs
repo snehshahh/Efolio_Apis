@@ -40,5 +40,31 @@ namespace Efolio_Api.Controllers
 				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
 			}
 		}
-	}
+       [HttpPut("UpdateEducation")]
+        public async Task<IActionResult> UpdateEducation([FromBody] Education education)
+        {
+            var result = dbHelper.UpdateEducation(education);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
+        [HttpDelete("DeleteEducation")]
+        public async Task<IActionResult> DeleteEducation([FromQuery] int id)
+        {
+            var result = dbHelper.DeleteEducation(id);
+            if (result != false)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
+        }
+    }
 }
