@@ -39,5 +39,19 @@ namespace Efolio_Api.Controllers
 				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
 			}
 		}
+
+		[HttpPut("UpdateProfile")]
+		public async Task<IActionResult> UpdateProfile([FromBody] Profile profile)
+		{
+			var result = dbHelper.UpdateProfile(profile);
+			if (result != false)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+			}
+		}
 	}
 }

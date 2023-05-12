@@ -76,11 +76,11 @@ namespace Efolio_Api.Models
 				_context.Projectss.Add(newProject);
 				_context.SaveChanges();
 
-				return true; 
+				return true;
 			}
 			catch (Exception ex)
 			{
-				return false; 
+				return false;
 			}
 		}
 		public bool PostProfile(Profile profile)
@@ -91,21 +91,21 @@ namespace Efolio_Api.Models
 				{
 					Id = profile.Id,
 					NewId = profile.NewId,
-                    Name = profile.Name,
+					Name = profile.Name,
 					ImageData = profile.ImageData,
 					Twitter = profile.Twitter,
-					Linkedin= profile.Linkedin,
-					Bio= profile.Bio
+					Linkedin = profile.Linkedin,
+					Bio = profile.Bio
 				};
 
 				_context.Profiles.Add(newProfile);
 				_context.SaveChanges();
 
-				return true; 
+				return true;
 			}
 			catch (Exception ex)
 			{
-				return false; 
+				return false;
 			}
 		}
 		public bool PostEducation(Education education)
@@ -116,49 +116,74 @@ namespace Efolio_Api.Models
 				{
 					Id = education.Id,
 					NewId = education.NewId,
-                    StartingYear=education.StartingYear,
-                    EndYear=education.EndYear,
-                    InstituteName = education.InstituteName,
-                    Degree=education.Degree
+					StartingYear = education.StartingYear,
+					EndYear = education.EndYear,
+					InstituteName = education.InstituteName,
+					Degree = education.Degree
 
-                };
+				};
 
 				_context.Educations.Add(newEducation);
 				_context.SaveChanges();
 
-				return true; 
+				return true;
 			}
 			catch (Exception ex)
 			{
-				return false; 
+				return false;
 			}
 		}
 
 		public bool PostExperience(Experience experience)
 		{
-            try
-            {
-                var newExperience = new Experience
-                {
-                    Id = experience.Id,
-                    NewId = experience.NewId,
-                    YearsOfExperience=experience.YearsOfExperience,
-                    CompanyName=experience.CompanyName,
-                    Desgination=experience.Desgination,
-                    CompanyDescription=experience.CompanyDescription
+			try
+			{
+				var newExperience = new Experience
+				{
+					Id = experience.Id,
+					NewId = experience.NewId,
+					YearsOfExperience = experience.YearsOfExperience,
+					CompanyName = experience.CompanyName,
+					Desgination = experience.Desgination,
+					CompanyDescription = experience.CompanyDescription
 
-                };
+				};
 
-                _context.Experiences.Add(newExperience);
-                _context.SaveChanges();
+				_context.Experiences.Add(newExperience);
+				_context.SaveChanges();
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+				return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
+		public bool UpdateProfile(Profile profile)
+		{
+			try
+			{
+				var entityToUpdate = _context.Profiles
+			   .SingleOrDefault(e => e.NewId == profile.NewId);
 
+				if (entityToUpdate != null)
+				{
+					// Update the properties of the entityToUpdate object with the values from the input entity object
+					entityToUpdate.Name = profile.Name;
+					entityToUpdate.ImageData = profile.ImageData;
+					entityToUpdate.Twitter = profile.Twitter;
+					entityToUpdate.Linkedin = profile.Linkedin;
+					entityToUpdate.Bio = profile.Bio;
+
+					_context.SaveChanges();
+				}
+					return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+
+		}
 	}
 }
