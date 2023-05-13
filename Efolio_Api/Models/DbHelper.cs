@@ -166,6 +166,44 @@ namespace Efolio_Api.Models
 				return false;
 			}
 		}
+
+		public bool PostMaster(Master master)
+		{
+            try
+            {
+                var newMasters = new Master
+                {
+                    Id = master.Id,
+                    NewId = master.NewId,
+                    YearsOfExperience = master.YearsOfExperience,
+                    CompanyName = master.CompanyName,
+                    Desgination = master.Desgination,
+                    CompanyDescription = master.CompanyDescription,
+                    StartingYear = master.StartingYear,
+                    EndYear = master.EndYear,
+                    InstituteName = master.InstituteName,
+                    Degree = master.Degree,
+                    ProjectTitle = master.ProjectTitle,
+                    ProjectDesc = master.ProjectDesc,
+                    Name = master.Name,
+                    ImageData = master.ImageData,
+                    Twitter = master.Twitter,
+                    Linkedin = master.Linkedin,
+                    Bio = master.Bio
+
+
+                };
+
+                _context.Masters.Add(newMasters);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region Put Methods
@@ -335,4 +373,5 @@ namespace Efolio_Api.Models
         }
 
 	}
+
 }
