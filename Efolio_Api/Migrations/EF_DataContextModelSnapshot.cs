@@ -23,11 +23,11 @@ namespace Efolio_Api.Migrations
 
             modelBuilder.Entity("Efolio_Api.EF_Core.Education", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EducationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EducationId"));
 
                     b.Property<string>("Degree")
                         .IsRequired()
@@ -41,25 +41,27 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
                         .HasColumnType("integer");
 
                     b.Property<string>("StartingYear")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("EducationId");
+
+                    b.HasIndex("MasterId");
 
                     b.ToTable("Educations");
                 });
 
             modelBuilder.Entity("Efolio_Api.EF_Core.Experience", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExperienceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ExperienceId"));
 
                     b.Property<string>("CompanyDescription")
                         .IsRequired()
@@ -69,17 +71,19 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Desgination")
+                    b.Property<string>("Designation")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
                         .HasColumnType("integer");
 
                     b.Property<int>("YearsOfExperience")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("ExperienceId");
+
+                    b.HasIndex("MasterId");
 
                     b.ToTable("Experiences");
                 });
@@ -132,52 +136,71 @@ namespace Efolio_Api.Migrations
                     b.ToTable("Logins");
                 });
 
-            modelBuilder.Entity("Efolio_Api.EF_Core.Profile", b =>
+            modelBuilder.Entity("Efolio_Api.EF_Core.Master", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MasterId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Masters");
+                });
+
+            modelBuilder.Entity("Efolio_Api.EF_Core.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProfileId"));
 
                     b.Property<string>("Bio")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<byte[]>("ImageData")
+                    b.Property<string>("ImageData")
                         .IsRequired()
-                        .HasColumnType("bytea");
+                        .HasColumnType("text");
 
                     b.Property<string>("Linkedin")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("MasterId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("NewId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Twitter")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProfileId");
+
+                    b.HasIndex("MasterId")
+                        .IsUnique();
 
                     b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Efolio_Api.EF_Core.Projects", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjectsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProjectsId"));
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ProjectDesc")
@@ -189,9 +212,59 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectsId");
+
+                    b.HasIndex("MasterId");
 
                     b.ToTable("Projectss");
+                });
+
+            modelBuilder.Entity("Efolio_Api.EF_Core.Education", b =>
+                {
+                    b.HasOne("Efolio_Api.EF_Core.Master", null)
+                        .WithMany("Education")
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Efolio_Api.EF_Core.Experience", b =>
+                {
+                    b.HasOne("Efolio_Api.EF_Core.Master", null)
+                        .WithMany("Experiences")
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Efolio_Api.EF_Core.Profile", b =>
+                {
+                    b.HasOne("Efolio_Api.EF_Core.Master", null)
+                        .WithOne("profile")
+                        .HasForeignKey("Efolio_Api.EF_Core.Profile", "MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Efolio_Api.EF_Core.Projects", b =>
+                {
+                    b.HasOne("Efolio_Api.EF_Core.Master", null)
+                        .WithMany("Project")
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Efolio_Api.EF_Core.Master", b =>
+                {
+                    b.Navigation("Education");
+
+                    b.Navigation("Experiences");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

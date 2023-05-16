@@ -1,4 +1,6 @@
 ﻿using Efolio_Api.EF_Core;
+using Efolio_Api.EF_Core; // Import the appropriate namespace for your project
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -42,27 +44,27 @@ namespace Efolio_Api.Models
 			return url;
 		}
 
-        #region Get Method
-        public List<Projects> GetProjects(int id)
-        {
-            var result = _context.Projectss.Where(p => p.NewId == id).ToList();
-            return result;
-        }
-        public List<Experience> GetExperience(int id)
-        {
-            var result = _context.Experiences.Where(p => p.NewId == id).ToList();
-            return result;
-        }
-        public List<Education> GetEducations(int id)
-        {
-            var result = _context.Educations.Where(p => p.NewId == id).ToList();
-            return result;
-        }
-        public List<Profile> GetProfile(int id)
-        {
-            var result = _context.Profiles.Where(p => p.NewId == id).ToList();
-            return result;
-        }
+		#region Get Method
+		public List<Projects> GetProjects(int id)
+		{
+			var result = _context.Projectss.Where(p => p.MasterId == id).ToList();
+			return result;
+		}
+		public List<Experience> GetExperience(int id)
+		{
+			var result = _context.Experiences.Where(p => p.MasterId == id).ToList();
+			return result;
+		}
+		public List<Education> GetEducations(int id)
+		{
+			var result = _context.Educations.Where(p => p.MasterId == id).ToList();
+			return result;
+		}
+		public List<Profile> GetProfile(int id)
+		{
+			var result = _context.Profiles.Where(p => p.MasterId == id).ToList();
+			return result;
+		}
 
 		#endregion
 
@@ -74,8 +76,7 @@ namespace Efolio_Api.Models
 			{
 				var newProject = new Projects
 				{
-					Id = projects.Id,
-					NewId = projects.NewId,
+					MasterId = projects.MasterId,
 					ProjectTitle = projects.ProjectTitle,
 					ProjectDesc = projects.ProjectDesc
 				};
@@ -90,14 +91,14 @@ namespace Efolio_Api.Models
 				return false;
 			}
 		}
+
 		public bool PostProfile(Profile profile)
 		{
 			try
 			{
 				var newProfile = new Profile
 				{
-					Id = profile.Id,
-					NewId = profile.NewId,
+					MasterId = profile.MasterId,
 					Name = profile.Name,
 					ImageData = profile.ImageData,
 					Twitter = profile.Twitter,
@@ -121,8 +122,7 @@ namespace Efolio_Api.Models
 			{
 				var newEducation = new Education
 				{
-					Id = education.Id,
-					NewId = education.NewId,
+					MasterId = education.MasterId,
 					StartingYear = education.StartingYear,
 					EndYear = education.EndYear,
 					InstituteName = education.InstituteName,
@@ -147,11 +147,10 @@ namespace Efolio_Api.Models
 			{
 				var newExperience = new Experience
 				{
-					Id = experience.Id,
-					NewId = experience.NewId,
+					MasterId = experience.MasterId,
 					YearsOfExperience = experience.YearsOfExperience,
 					CompanyName = experience.CompanyName,
-					Desgination = experience.Desgination,
+					Designation = experience.Designation,
 					CompanyDescription = experience.CompanyDescription
 
 				};
@@ -166,37 +165,37 @@ namespace Efolio_Api.Models
 				return false;
 			}
 		}
-
-		public bool PostMaster(Master master)
-		{
+        public bool PostMaster(Master master)
+        {
             try
             {
-                var newMasters = new Master
+                var newMaster = new Master
                 {
-                    Id = master.Id,
-                    NewId = master.NewId,
-                    YearsOfExperience = master.YearsOfExperience,
-                    CompanyName = master.CompanyName,
-                    Desgination = master.Desgination,
-                    CompanyDescription = master.CompanyDescription,
-                    StartingYear = master.StartingYear,
-                    EndYear = master.EndYear,
-                    InstituteName = master.InstituteName,
-                    Degree = master.Degree,
-                    ProjectTitle = master.ProjectTitle,
-                    ProjectDesc = master.ProjectDesc,
-                    Name = master.Name,
-                    ImageData = master.ImageData,
-                    Twitter = master.Twitter,
-                    Linkedin = master.Linkedin,
-                    Bio = master.Bio
-
-
+                    MasterId = master.MasterId,
+                    profile = master.profile
                 };
-
-                _context.Masters.Add(newMasters);
+                _context.Masters.Add(newMaster);
                 _context.SaveChanges();
 
+                foreach (var project in master.Project)
+                {
+                    project.MasterId = master.MasterId;
+                    _context.Projectss.Add(project);
+                }
+
+                foreach (var experience in master.Experiences)
+                {
+                    experience.MasterId = master.MasterId;
+                    _context.Experiences.Add(experience);
+                }
+
+                foreach (var education in master.Education)
+                {
+					education.MasterId = master.MasterId;
+                    _context.Educations.Add(education);
+                }
+
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -204,6 +203,7 @@ namespace Efolio_Api.Models
                 return false;
             }
         }
+
         #endregion
 
         #region Put Methods
@@ -213,7 +213,7 @@ namespace Efolio_Api.Models
 			try
 			{
 				var entityToUpdate = _context.Profiles
-			   .FirstOrDefault(e => e.NewId == profile.NewId);
+			   .FirstOrDefault(e => e.MasterId == profile.MasterId);
 
 				if (entityToUpdate != null)
 				{
@@ -239,7 +239,7 @@ namespace Efolio_Api.Models
 			try
 			{
 				var entityToUpdate = _context.Projectss
-			   .FirstOrDefault(e => e.NewId == project.NewId);
+			   .FirstOrDefault(e => e.MasterId == project.MasterId);
 
 				if (entityToUpdate != null)
 				{
@@ -261,13 +261,13 @@ namespace Efolio_Api.Models
 			try
 			{
 				var entityToUpdate = _context.Experiences
-			   .FirstOrDefault(e => e.NewId == experience.NewId);
+			   .FirstOrDefault(e => e.MasterId == experience.MasterId);
 
 				if (entityToUpdate != null)
 				{
 					// Update the properties of the entityToUpdate object with the values from the input entity object
 					entityToUpdate.YearsOfExperience = experience.YearsOfExperience;
-					entityToUpdate.Desgination = experience.Desgination;
+					entityToUpdate.Designation = experience.Designation;
 					entityToUpdate.CompanyDescription = experience.CompanyDescription;
 					_context.SaveChanges();
 				}
@@ -284,7 +284,7 @@ namespace Efolio_Api.Models
             try
             {
                 var entityToUpdate = _context.Educations
-               .FirstOrDefault(e => e.NewId == education.NewId);
+               .FirstOrDefault(e => e.MasterId == education.MasterId);
 
                 if (entityToUpdate != null)
                 {
