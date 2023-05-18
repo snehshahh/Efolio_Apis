@@ -1,11 +1,21 @@
-﻿namespace Efolio_Api.EF_Core
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Efolio_Api.EF_Core
 {
     public class Link
     {
-        public int Id { get; set; }
-		public int NewId { get; set; }
 
-		public string Email { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [BindNever]
+
+        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MasterId { get; set; }
+
+        public string Email { get; set; }
         public string GLink { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Efolio_Api.Migrations
 {
     [DbContext(typeof(EF_DataContext))]
-    [Migration("20230516162300_InitialCreate")]
+    [Migration("20230518163535_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -107,8 +107,11 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MasterId"));
 
                     b.HasKey("Id");
 
@@ -127,8 +130,11 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MasterId"));
 
                     b.Property<string>("Password")
                         .IsRequired()

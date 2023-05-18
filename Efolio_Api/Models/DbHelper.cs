@@ -12,40 +12,53 @@ namespace Efolio_Api.Models
 	{
 		private EF_DataContext _context;
 		public DbHelper(EF_DataContext context) { _context = context; }
-		public string IsUserCredentialsValid(string email, string password)
-		{
-			// Check if there is a user with the given email and password
-			bool isValidUser = _context.Logins.Any(u => u.Email == email && u.Password == password);
+        public List<(int MasterId, string GLink)> IsUserCredentialsValid(string email, string password)
+        {
+            // Check if there is a user with the given email and password
+            bool isValidUser = _context.Logins.Any(u => u.Email == email && u.Password == password);
 
-			if (isValidUser)
-			{
-				var link = _context.Links.FirstOrDefault(l => l.Email == email);
+            if (isValidUser)
+            {
+                string sqlQuery = $"SELECT * FROM public.\"Links\" WHERE \"Email\" = '{email}';";
 
-				if (link != null)
-				{
-					return link.GLink;
-				}
-			}
+                var result = _context.Links.FromSqlRaw(sqlQuery).ToList();
 
-			return null;
-		}
-		public string RegisterAndAuthenticateUser(Login login)
-		{
-			_context.Logins.Add(login);
-			_context.SaveChanges();
-			string url = $"http://example.com?email={login.Email}";
-			var links = new Link()
-			{
-				Email = login.Email,
-				GLink = url
-			};
-			_context.Links.Add(links);
-			_context.SaveChanges();
-			return url;
-		}
+                // Map the result to the desired format (e.g., list of tuples)
+                var mappedResult = result.Select(link => (link.MasterId, link.GLink)).ToList();
 
-		#region Get Method
-		public List<Projects> GetProjects(int id)
+                return mappedResult;
+            }
+
+            return null;
+        }
+
+        public string RegisterAndAuthenticateUser(Login login)
+        {
+            if (_context.Logins.Any(l => l.Email == login.Email))
+            {
+                return null;
+            }
+
+            _context.Logins.Add(login);
+            _context.SaveChanges();
+
+            string emailWithoutDomain = login.Email.Split('@')[0]; // Remove domain part of email for URL only
+            string url = $"http://example.com?{emailWithoutDomain}";
+            var links = new Link()
+            {
+                Email = login.Email,
+                GLink = url
+            };
+
+            _context.Links.Add(links);
+            _context.SaveChanges();
+
+            return url;
+        }
+
+
+        #region Get Method
+        public List<Projects> GetProjects(int id)
 		{
 			var result = _context.Projectss.Where(p => p.MasterId == id).ToList();
 			return result;
@@ -213,7 +226,7 @@ namespace Efolio_Api.Models
 			try
 			{
 				var entityToUpdate = _context.Profiles
-			   .FirstOrDefault(e => e.MasterId == profile.MasterId);
+			   .FirstOrDefault(e => e.MasterId == profile.MasterId && e.ProfileId==profile.ProfileId);
 
 				if (entityToUpdate != null)
 				{
@@ -239,7 +252,7 @@ namespace Efolio_Api.Models
 			try
 			{
 				var entityToUpdate = _context.Projectss
-			   .FirstOrDefault(e => e.MasterId == project.MasterId);
+			   .FirstOrDefault(e => e.MasterId == project.MasterId && e.ProjectsId == project.ProjectsId);
 
 				if (entityToUpdate != null)
 				{
@@ -261,7 +274,7 @@ namespace Efolio_Api.Models
 			try
 			{
 				var entityToUpdate = _context.Experiences
-			   .FirstOrDefault(e => e.MasterId == experience.MasterId);
+			   .FirstOrDefault(e => e.MasterId == experience.MasterId  && e.ExperienceId == experience.ExperienceId);
 
 				if (entityToUpdate != null)
 				{
@@ -284,7 +297,7 @@ namespace Efolio_Api.Models
             try
             {
                 var entityToUpdate = _context.Educations
-               .FirstOrDefault(e => e.MasterId == education.MasterId);
+               .FirstOrDefault(e => e.MasterId == education.MasterId && e.EducationId == education.EducationId);
 
                 if (entityToUpdate != null)
                 {

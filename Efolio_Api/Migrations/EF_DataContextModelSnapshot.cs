@@ -104,8 +104,11 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MasterId"));
 
                     b.HasKey("Id");
 
@@ -124,8 +127,11 @@ namespace Efolio_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("NewId")
+                    b.Property<int>("MasterId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MasterId"));
 
                     b.Property<string>("Password")
                         .IsRequired()

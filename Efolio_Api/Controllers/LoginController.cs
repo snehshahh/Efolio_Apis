@@ -23,16 +23,21 @@ namespace Efolio_Api.Controllers
         [HttpGet("Login")]
         public IActionResult IsUserCredentialsValid([FromQuery] string email, [FromQuery] string password)
         {
-            string isValidCredentials = dbHelper.IsUserCredentialsValid(email, password);
-            if (isValidCredentials != " " && isValidCredentials != null)
+            List<(int MasterId, string GLink)> validCredentials =dbHelper.IsUserCredentialsValid(email, password);
+
+            if (validCredentials != null && validCredentials.Any())
             {
                 // User credentials are valid, perform further actions like generating a token or returning a success response
-                return Ok("Login successful");
+                return Ok(new { ValidCredentials = validCredentials });
             }
 
             // User credentials are invalid, return an appropriate response
-            return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            return NotFound(new { message = "Failed", StatusCode = 404 });
         }
+
+
+
+
 
         [HttpGet("SignUp")]
 		public IActionResult RegisterAndAuthenticateUser([FromQuery] string email, [FromQuery] string password)
@@ -44,7 +49,14 @@ namespace Efolio_Api.Controllers
 				Password = password
 			};
             string url = dbHelper.RegisterAndAuthenticateUser(login);
-            return Ok(url);
+            if(url != null)
+            {
+                return Ok("Login successful");
+            }
+            else
+            {
+                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+            }
 
 		}
 
