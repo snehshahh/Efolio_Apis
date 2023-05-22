@@ -12,6 +12,7 @@ namespace Efolio_Api.EF_Core
 
         public int EducationId { get; set; }
 
+        [ForeignKey("Master")]
         public int MasterId { get; set; }
         public string StartingYear { get; set; }
         public string EndYear { get; set; }

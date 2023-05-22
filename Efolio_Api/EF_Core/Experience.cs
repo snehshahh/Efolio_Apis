@@ -11,9 +11,10 @@ namespace Efolio_Api.EF_Core
         [BindNever]
         public int ExperienceId { get; set; }
 
+        [ForeignKey("Master")]
         public int MasterId { get; set; }
 
-		public int YearsOfExperience { get; set; }
+        public int YearsOfExperience { get; set; }
         public string CompanyName { get; set; }
         public string Designation { get; set; }
         public string CompanyDescription { get; set;}

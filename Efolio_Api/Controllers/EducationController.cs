@@ -1,5 +1,6 @@
 ﻿using Efolio_Api.EF_Core;
 using Efolio_Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,9 +55,9 @@ namespace Efolio_Api.Controllers
             }
         }
         [HttpDelete("DeleteEducation")]
-        public async Task<IActionResult> DeleteEducation([FromQuery] int id)
+        public async Task<IActionResult> DeleteEducation([FromQuery] int educationId, [FromQuery] int masterId)
         {
-            var result = dbHelper.DeleteEducation(id);
+            var result = dbHelper.DeleteEducation(educationId,masterId);
             if (result != false)
             {
                 return Ok(result);

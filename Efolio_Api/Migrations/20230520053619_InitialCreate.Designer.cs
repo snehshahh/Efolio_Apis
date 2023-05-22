@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Efolio_Api.Migrations
 {
     [DbContext(typeof(EF_DataContext))]
-    [Migration("20230519043914_InitialCreate")]
+    [Migration("20230520053619_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

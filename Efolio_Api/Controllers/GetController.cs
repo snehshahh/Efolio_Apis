@@ -1,5 +1,6 @@
 ﻿using Efolio_Api.EF_Core;
 using Efolio_Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

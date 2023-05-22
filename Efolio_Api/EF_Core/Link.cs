@@ -13,6 +13,7 @@ namespace Efolio_Api.EF_Core
 
         public int Id { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ForeignKey("Master")]
         public int MasterId { get; set; }
 
         public string Email { get; set; }

@@ -6,11 +6,12 @@ namespace Efolio_Api.EF_Core
 {
     public class Master
     {
+        
+       
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [BindNever]
-
-        public int Id { get; set; }
         public int MasterId { get; set; }
         public List<Projects> Project { get; set; }
         public List<Experience> Experiences { get; set; }

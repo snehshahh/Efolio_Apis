@@ -1,10 +1,12 @@
 ﻿using Efolio_Api.EF_Core;
 using Efolio_Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Efolio_Api.Controllers
 {
+	
 	public class ProjectsController : Controller
 	{
 		private readonly DbHelper dbHelper;
@@ -54,9 +56,9 @@ namespace Efolio_Api.Controllers
             }
         }
 		[HttpDelete("DeleteProjects")]
-        public async Task<IActionResult> DeleteProjects([FromQuery] int id)
+        public async Task<IActionResult> DeleteProjects([FromQuery] int projectid, [FromQuery] int masterId)
         {
-            var result = dbHelper.DeleteProjects(id);
+            var result = dbHelper.DeleteProjects(projectid,masterId);
             if (result != false)
             {
                 return Ok(result);

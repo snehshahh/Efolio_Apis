@@ -1,5 +1,6 @@
 ﻿using Efolio_Api.EF_Core;
 using Efolio_Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,19 +54,20 @@ namespace Efolio_Api.Controllers
 				return StatusCode(404, new { message = "Failed", StatusCode = 404 });
 			}
 		}
-       
         [HttpDelete("DeleteProfile")]
-        public async Task<IActionResult> DeleteProfile([FromQuery] int id)
+        public async Task<IActionResult> DeleteProfile([FromQuery] int profileId,[FromQuery] int masterId)
         {
-            var result = dbHelper.DeleteProfile(id);
-            if (result != false)
+            var result = dbHelper.DeleteProfile(profileId, masterId);
+
+            if (result)
             {
                 return Ok(result);
             }
             else
             {
-                return StatusCode(404, new { message = "Failed", StatusCode = 404 });
+                return NotFound(new { message = "Failed", StatusCode = 404 });
             }
         }
+
     }
 }

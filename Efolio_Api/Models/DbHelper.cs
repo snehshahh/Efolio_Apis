@@ -36,6 +36,14 @@ namespace Efolio_Api.Models
 
             _context.Logins.Add(login);
             _context.SaveChanges();
+            int generatedId = login.Id; // Assuming "Id" is the primary key of the "Logins" table
+
+            var newMaster = new Master
+            {
+                MasterId = generatedId // Set the "masterid" column with the generated ID value
+            };
+            _context.Masters.Add(newMaster);
+            _context.SaveChanges();
 
             string emailWithoutDomain = login.Email.Split('@')[0]; // Remove domain part of email for URL only
             string url = $"http://example.com?{emailWithoutDomain}";
@@ -84,6 +92,7 @@ namespace Efolio_Api.Models
 			{
 				var newProject = new Projects
 				{
+					ProjectsId=projects.ProjectsId,
 					MasterId = projects.MasterId,
 					ProjectTitle = projects.ProjectTitle,
 					ProjectDesc = projects.ProjectDesc
@@ -310,30 +319,29 @@ namespace Efolio_Api.Models
                 return false;
             }
         }
-		#endregion
+        #endregion
 
-		
 
-		public bool DeleteProfile(int id)
+
+        public bool DeleteProfile(int profileID, int masterID)
+        {
+            var profile = _context.Profiles.FirstOrDefault(p => p.ProfileId == profileID && p.MasterId == masterID);
+
+            if (profile == null)
+            {
+                return false;
+            }
+
+            _context.Profiles.Remove(profile);
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool DeleteProjects(int projectId, int masterId)
 		{
 
-			var link = _context.Profiles.Find(id);
-
-			if (link == null)
-			{
-				return false;
-			}
-
-			_context.Profiles.Remove(link);
-			_context.SaveChanges();
-
-			return true;
-
-		}
-		public bool DeleteProjects(int id)
-		{
-
-            var delproject = _context.Projectss.Find(id);
+            var delproject = _context.Projectss.FirstOrDefault(p => p.ProjectsId == projectId && p.MasterId == masterId);
 
             if (delproject == null)
             {
@@ -347,10 +355,10 @@ namespace Efolio_Api.Models
 
         }
 
-		public bool DeleteExperience(int id)
+		public bool DeleteExperience(int experienceId, int masterId)
 		{
 
-            var delExperiences = _context.Experiences.Find(id);
+            var delExperiences = _context.Experiences.FirstOrDefault(p => p.ExperienceId == experienceId && p.MasterId == masterId);
 
             if (delExperiences == null)
             {
@@ -363,11 +371,10 @@ namespace Efolio_Api.Models
             return true;
 
         }
-		public bool DeleteEducation(int id)
+		public bool DeleteEducation(int educationtId, int masterId)
 		{
 
-            var delEdu = _context.Educations.Find(id);
-
+            var delEdu = _context.Educations.FirstOrDefault(p => p.EducationId == educationtId && p.MasterId == masterId);
             if (delEdu == null)
             {
                 return false;

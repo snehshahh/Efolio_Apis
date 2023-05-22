@@ -1,11 +1,12 @@
 ﻿using Efolio_Api.EF_Core;
 using Efolio_Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Efolio_Api.Controllers
 {
-	public class ExperienceController : Controller
+    public class ExperienceController : Controller
 	{
 		private readonly DbHelper dbHelper;
 
@@ -54,9 +55,9 @@ namespace Efolio_Api.Controllers
             }
         }
 		[HttpDelete("DeleteExperience")]
-        public async Task<IActionResult> DeleteExperience([FromQuery] int id)
+        public async Task<IActionResult> DeleteExperience([FromQuery] int experienceId, [FromQuery] int masterId)
         {
-            var result = dbHelper.DeleteExperience(id);
+            var result = dbHelper.DeleteExperience(experienceId,masterId);
             if (result != false)
             {
                 return Ok(result);

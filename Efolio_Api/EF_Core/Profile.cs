@@ -10,9 +10,11 @@ namespace Efolio_Api.EF_Core
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [BindNever]
         public int ProfileId { get; set; }
-		public int MasterId { get; set; }
 
-		public string Name { get; set; }
+        [ForeignKey("Master")]
+        public int MasterId { get; set; }
+
+        public string Name { get; set; }
 
         public string ImageData { get; set; }
         public Uri Twitter {  get; set; }

@@ -10,12 +10,15 @@ namespace Efolio_Api.EF_Core
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [BindNever]
         public int ProjectsId { get; set; }
-		public int MasterId { get; set; }
 
-		public string ProjectTitle { get; set; }
+        [ForeignKey("Master")]
+        public int MasterId { get; set; }
 
-        [StringLength(1000)] // Set the maximum length to 1000 characters
+        public string ProjectTitle { get; set; }
+
+        [StringLength(1000)]
         public string ProjectDesc { get; set; }
 
     }
+
 }
