@@ -47,13 +47,12 @@ namespace Efolio_Api.Migrations
                 name: "Masters",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     MasterId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Masters", x => x.Id);
+                    table.PrimaryKey("PK_Masters", x => x.MasterId);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,7 +74,7 @@ namespace Efolio_Api.Migrations
                         name: "FK_Educations_Masters_MasterId",
                         column: x => x.MasterId,
                         principalTable: "Masters",
-                        principalColumn: "Id",
+                        principalColumn: "MasterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -98,7 +97,7 @@ namespace Efolio_Api.Migrations
                         name: "FK_Experiences_Masters_MasterId",
                         column: x => x.MasterId,
                         principalTable: "Masters",
-                        principalColumn: "Id",
+                        principalColumn: "MasterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -122,7 +121,7 @@ namespace Efolio_Api.Migrations
                         name: "FK_Profiles_Masters_MasterId",
                         column: x => x.MasterId,
                         principalTable: "Masters",
-                        principalColumn: "Id",
+                        principalColumn: "MasterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -143,7 +142,7 @@ namespace Efolio_Api.Migrations
                         name: "FK_Projectss_Masters_MasterId",
                         column: x => x.MasterId,
                         principalTable: "Masters",
-                        principalColumn: "Id",
+                        principalColumn: "MasterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 

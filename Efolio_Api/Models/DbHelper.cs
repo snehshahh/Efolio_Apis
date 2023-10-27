@@ -73,7 +73,7 @@ namespace Efolio_Api.Models
 		}
 		public List<Education> GetEducations(int id)
 		{
-			var result = _context.Educations.Where(p => p.MasterId == id).ToList();
+			var result = _context.Educations.Where(p => p.MasterId	 == id).ToList();
 			return result;
 		}
 		public List<Profile> GetProfile(int id)

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Efolio_Api.Migrations
 {
     [DbContext(typeof(EF_DataContext))]
-    [Migration("20230520053619_InitialCreate")]
+    [Migration("20230625054651_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -147,16 +147,13 @@ namespace Efolio_Api.Migrations
 
             modelBuilder.Entity("Efolio_Api.EF_Core.Master", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MasterId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MasterId"));
 
-                    b.Property<int>("MasterId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("MasterId");
 
                     b.ToTable("Masters");
                 });
